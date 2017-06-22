@@ -220,6 +220,8 @@ Vivus.prototype.setOptions = function (options) {
   if (this.delay >= this.duration) {
     throw new Error('Vivus [constructor]: delay must be shorter than duration');
   }
+
+  this.drawBackLoop = options.drawBackLoop?2:1;
 };
 
 /**
@@ -410,7 +412,7 @@ Vivus.prototype.trace = function () {
     progress = this.pathTimingFunction(Math.max(0, Math.min(1, progress)));
     if (path.progress !== progress) {
       path.progress = progress;
-      path.el.style.strokeDashoffset = Math.floor(path.length * (1 - progress));
+      path.el.style.strokeDashoffset = Math.floor(path.length * (1 - progress)) * this.drawBackLoop;
       this.renderPath(i);
     }
   }
